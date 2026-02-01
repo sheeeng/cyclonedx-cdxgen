@@ -595,8 +595,6 @@ const applyAdvancedOptions = (options) => {
     case "post-build":
       if (
         !options.projectType ||
-        (Array.isArray(options.projectType) &&
-          options.projectType.length > 1) ||
         ![
           "csharp",
           "dotnet",
@@ -612,6 +610,7 @@ const applyAdvancedOptions = (options) => {
           "rust",
           "rust-lang",
           "cargo",
+          "caxa",
         ].includes(options.projectType[0])
       ) {
         console.log(
