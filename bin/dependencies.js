@@ -17,6 +17,15 @@ const missingPnpmOverrides = [];
 const obsoleteNpmOverrides = [];
 const obsoletePnpmOverrides = [];
 
+for (const _package in pkgJson.dependencies) {
+  checkOverride(_package, pkgJson.dependencies[_package])
+}
+for (const _package in pkgJson.devDependencies) {
+  checkOverride(_package, pkgJson.devDependencies[_package])
+}
+for (const _package in pkgJson.optionalDependencies) {
+  checkOverride(_package, pkgJson.optionalDependencies[_package])
+}
 for (const _package in pnpmLockYaml.snapshots) {
   const indexOfSeparator = _package.split("(")[0].lastIndexOf("@");
   const packageName = _package.substring(0, indexOfSeparator);
