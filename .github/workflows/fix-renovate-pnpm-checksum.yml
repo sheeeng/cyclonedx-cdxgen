@@ -1,7 +1,9 @@
 name: Fix pnpm-lock after renovate
 
 on:
-  pull_request:
+  push:
+    branches:
+      - renovate/*
     paths:
       - 'pnpm-lock.yaml'
 
@@ -33,29 +35,3 @@ jobs:
           commit: --signoff
           default_author: github_actions
           message: Fixed pnpm-lock after renovate update
-      - name: Comment
-        run: |
-          read -a array <<< "$COMMIT_MESSAGE"
-          if [ "${array[2]}" == "dependency" ]; then
-            node bin/cdxgen.js --exclude test/\*\* -t js --deep
-            echo "Output of \`pnpm why ${array[3]}\`:" > _tree.txt
-            echo "\`\`\`" >> _tree.txt
-            pnpm why ${array[3]} >> _tree.txt
-            echo "\`\`\`" >> _tree.txt
-            echo "Output of \`jq\` on components:" >> _tree.txt
-            echo "\`\`\`" >> _tree.txt
-            jq --arg dep "${array[3]}@" '.components[] | select(."bom-ref" | test($dep)) | { group, name, version, purl, licenses }' bom.json >> _tree.txt
-            echo "\`\`\`" >> _tree.txt
-            echo "Output of \`jq\` on dependencies:" >> _tree.txt
-            echo "\`\`\`" >> _tree.txt
-            jq --arg dep "${array[3]}@" '.dependencies[] | select(.ref | test($dep))' bom.json >> _tree.txt
-            jq --arg dep "${array[3]}@" '.dependencies[] | select(.dependsOn | any(test($dep)))' bom.json >> _tree.txt
-            echo "\`\`\`" >> _tree.txt
-          fi
-        env:
-          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-          FETCH_LICENSE: true
-      - uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2.8.2
-        if: hashFiles('_tree.txt')
-        with:
-          message-path: _tree.txt
