@@ -1,7 +1,7 @@
 name: Fix pnpm-lock after renovate
 
 on:
-  push:
+  pull_request:
     branches:
       - 'renovate/*'
     paths:
