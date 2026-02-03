@@ -208,6 +208,7 @@ jobs:
           image: ${{ matrix.image }}
           options: |
             -e NVM_NODEJS_ORG_MIRROR=${{ matrix.node-download-url }}
+            -e FETCH_LICENSE=true
             --network host
             -v ${{ github.workspace }}:${{ github.workspace }}
             -w ${{ github.workspace }}
@@ -239,6 +240,8 @@ jobs:
       - name: Build for darwin & windows
         if: ${{ matrix.libc == 'gnu' && matrix.os != 'linux' }}
         run: ${{ matrix.cmd }}
+        env:
+          FETCH_LICENSE: true
       - name: Correct filenames # <name>-<os>-<arch>[-<libc-suffix>][-<variant>][.ext]
         run: |
           # Rename to temporary name -- fix for renaming to the same name, which does not work
