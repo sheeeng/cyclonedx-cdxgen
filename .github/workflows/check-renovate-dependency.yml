@@ -1,4 +1,4 @@
-name: Fix pnpm-lock after renovate
+name: Check dependency usage
 
 on:
   pull_request:
