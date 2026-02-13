@@ -81,7 +81,7 @@
     {
       "description": "Pin GitHub Actions digests to major version - for those actions which don't support semver",
       "extends": ["helpers:pinGitHubActionDigests"],
-      "matchPackageNames": ["addnab/docker-run-action"],
+      "matchPackageNames": ["maus007/docker-run-action-fork"],
       "extractVersion": "^(?<version>v?\\d+)$",
       "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$",
       "automerge": true,
