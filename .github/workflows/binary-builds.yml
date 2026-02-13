@@ -206,6 +206,7 @@ jobs:
         if: ${{ matrix.os == 'linux' }}
         with:
           image: ${{ matrix.image }}
+          shell: bash
           options: |
             -e NVM_NODEJS_ORG_MIRROR=${{ matrix.node-download-url }}
             -e FETCH_LICENSE=true
